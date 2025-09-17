@@ -284,7 +284,7 @@ const Input = styled.input`
 `;
 
 const Cart: React.FC = () => {
-  const { state, updateQuantity, removeFromCart, checkout, clearCart } = useCart();
+  const { state, updateQuantity, removeFromCart, checkout } = useCart();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [showCheckoutForm, setShowCheckoutForm] = useState(false);
   const [customerInfo, setCustomerInfo] = useState({

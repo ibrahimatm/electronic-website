@@ -150,7 +150,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Load cart from localStorage on mount
   useEffect(() => {
     loadCart();
-  }, []);
+  }, [loadCart]);
 
   // Save cart to localStorage whenever items change
   useEffect(() => {

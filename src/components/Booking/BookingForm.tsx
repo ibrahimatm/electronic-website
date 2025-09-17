@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { supabase } from '../../lib/supabaseClient';
@@ -136,37 +136,7 @@ const TextArea = styled.textarea`
   }
 `;
 
-const ServiceOptions = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 12px;
-  margin-top: 8px;
-`;
 
-const ServiceOption = styled(motion.label)<{ selected: boolean }>`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px;
-  border: 2px solid ${props => props.selected ? '#dbbc07' : '#e1e8ed'};
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background: ${props => props.selected ? 'rgba(219, 188, 7, 0.05)' : 'white'};
-  
-  &:hover {
-    border-color: #dbbc07;
-  }
-  
-  input {
-    display: none;
-  }
-  
-  span {
-    font-weight: ${props => props.selected ? '600' : '400'};
-    color: ${props => props.selected ? '#dbbc07' : '#555'};
-  }
-`;
 
 const SubmitButton = styled(motion.button)`
   padding: 16px 32px;
@@ -437,6 +407,7 @@ const BookingForm: React.FC = () => {
               value={formData.serviceType}
               onChange={(e) => handleInputChange('serviceType', e.target.value)}
               required
+              aria-label="Service Type"
             >
               <option value="">Select a service</option>
               {serviceTypes.map((service, index) => (
@@ -470,14 +441,14 @@ const BookingForm: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3, delay: 0.6 }}
           >
-            <Label>
+            
               <ClockIcon size={16} />
               Preferred Time *
-            </Label>
             <Select
               value={formData.preferredTime}
               onChange={(e) => handleInputChange('preferredTime', e.target.value)}
               required
+              aria-label="Preferred Time"
             >
               <option value="">Select time</option>
               <option value="08:00">8:00 AM</option>
@@ -491,7 +462,7 @@ const BookingForm: React.FC = () => {
               <option value="16:00">4:00 PM</option>
               <option value="17:00">5:00 PM</option>
             </Select>
-          </FormGroup>
+                      </FormGroup>
         </FormRow>
 
         <FormGroup

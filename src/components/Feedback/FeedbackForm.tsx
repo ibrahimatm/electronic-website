@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { FiUser, FiMail, FiMessageSquare, FiStar, FiCheck, FiHeart } from 'react-icons/fi';
+import { FiUser, FiMail, FiMessageSquare, FiStar, FiHeart } from 'react-icons/fi';
 import { supabase } from '../../lib/supabaseClient';
 
 const FeedbackContainer = styled.div`

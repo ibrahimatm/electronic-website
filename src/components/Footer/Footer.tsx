@@ -366,9 +366,9 @@ const Footer: React.FC = () => {
           © {new Date().getFullYear()} GreenLantern Electronics. All rights reserved.
         </div>
         <div className="links">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-          <a href="#">Support</a>
+          <button type="button" className="footer-link">Privacy Policy</button>
+          <button type="button" className="footer-link">Terms of Service</button>
+          <button type="button" className="footer-link">Support</button>
         </div>
       </FooterBottom>
     </FooterWrapper>  
