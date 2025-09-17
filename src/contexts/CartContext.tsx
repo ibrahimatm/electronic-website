@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useReducer } from 'react';
+import React, { createContext, useContext, useEffect, useReducer, useCallback } from 'react';
 import { Product, CartItem } from '../types';
 import { supabase } from '../lib/supabaseClient';
 
@@ -147,33 +147,16 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const userSession = getUserSession();
 
-  // Load cart from localStorage on mount
-  useEffect(() => {
-    loadCart();
-  }, [loadCart]);
-
-  // Save cart to localStorage whenever items change
-  useEffect(() => {
-    if (state.items.length > 0) {
-      localStorage.setItem('cart_items', JSON.stringify(state.items));
-    } else {
-      localStorage.removeItem('cart_items');
-    }
-  }, [state.items]);
-
-  const loadCart = async () => {
+  // Move loadCart above useEffect and wrap in useCallback
+  const loadCart = useCallback(async () => {
     dispatch({ type: 'SET_LOADING', payload: true });
-    
     try {
-      // First try to load from localStorage
       const localCart = localStorage.getItem('cart_items');
       if (localCart) {
         const items = JSON.parse(localCart);
         dispatch({ type: 'SET_ITEMS', payload: items });
         return;
       }
-
-      // Try to load from Supabase if available
       const { data, error } = await supabase
         .from('cart_items')
         .select(`
@@ -199,7 +182,21 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.warn('Failed to load cart from database, using local storage:', error);
       dispatch({ type: 'SET_ITEMS', payload: [] });
     }
-  };
+  }, [userSession]);
+
+  // Load cart from localStorage on mount
+  useEffect(() => {
+    loadCart();
+  }, [loadCart]);
+
+  // Save cart to localStorage whenever items change
+  useEffect(() => {
+    if (state.items.length > 0) {
+      localStorage.setItem('cart_items', JSON.stringify(state.items));
+    } else {
+      localStorage.removeItem('cart_items');
+    }
+  }, [state.items]);
 
   const addToCart = async (product: Product, quantity: number = 1) => {
     const cartItem: CartItem = { ...product, quantity };
